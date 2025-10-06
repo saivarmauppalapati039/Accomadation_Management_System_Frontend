@@ -1,0 +1,76 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard - Hostel Management</title>
+  <style>
+    /* Reuse your existing theme styles */
+    body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 0; }
+    .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+    .card { background: white; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 25px; }
+    h1, h2 { color: #1976d2; margin-bottom: 20px; }
+    .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin: 5px; }
+    .btn-primary { background: #1976d2; color: white; }
+    .btn-primary:hover { background: #1565c0; }
+    .btn-success { background: #4CAF50; color: white; }
+    .btn-success:hover { background: #45a049; }
+    .welcome { font-size: 18px; margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Dashboard</h1>
+    <div class="card">
+      <div class="welcome">Welcome, <span id="userName"></span>!</div>
+      <div id="hosteler-section" style="display:none;">
+        <h2>Hosteler Actions</h2>
+        <a href="rooms.html" class="btn btn-primary">View Available Rooms</a>
+        <a href="profile.html" class="btn btn-success">My Bookings</a>
+      </div>
+      <div id="admin-section" style="display:none;">
+        <h2>Admin Actions</h2>
+        <a href="admin-rooms.html" class="btn btn-primary">Manage Rooms</a>
+        <a href="admin-bookings.html" class="btn btn-primary">Manage Bookings</a>
+        <a href="admin-users.html" class="btn btn-primary">Manage Users</a>
+      </div>
+      <div id="visitor-section" style="display:none;">
+        <h2>Welcome, Visitor!</h2>
+        <p>You can view hostel facilities or contact support.</p>
+        <a href="index.html" class="btn btn-primary">Back to Homepage</a>
+      </div>
+      <a href="profile.html" class="btn btn-success">My Profile</a>
+      <button class="btn btn-danger" id="logoutBtn">Logout</button>
+    </div>
+  </div>
+
+  <script>
+    async function init() {
+      try {
+        const res = await fetch('https://accomadation-management-system-backend.onrender.com/api/profile', { credentials: 'include' });
+        if (!res.ok) throw new Error('Not logged in');
+        const user = await res.json();
+        document.getElementById('userName').textContent = user.name;
+
+        if (user.userType === 'hostelers') {
+          document.getElementById('hosteler-section').style.display = 'block';
+        } else if (user.userType === 'admin') {
+          document.getElementById('admin-section').style.display = 'block';
+        } else {
+          document.getElementById('visitor-section').style.display = 'block';
+        }
+      } catch (err) {
+        window.location.href = 'auth/login.html';
+      }
+    }
+
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('https://accomadation-management-system-backend.onrender.com/api/auth/logout', { method: 'POST', credentials: 'include' });
+      window.location.href = 'auth/login.html';
+    });
+
+    init();
+  </script>
+</body>
+</html>
