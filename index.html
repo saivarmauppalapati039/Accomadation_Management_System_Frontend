@@ -1,90 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hostel Management System</title>
-  <link rel="stylesheet" href="index.css">
+  <style>
+    /* ===== Global Styles (Matches login/signup) ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* ===== Navbar ===== */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 5%;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      font-size: 18px;
+      font-weight: bold;
+      color: #1976d2;
+    }
+    .nav-links .btn {
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+    .signup-btn {
+      background: #4CAF50;
+      color: white;
+    }
+    .signup-btn:hover {
+      background: #45a049;
+    }
+    .login-btn {
+      background: #1976d2;
+      color: white;
+    }
+    .login-btn:hover {
+      background: #1565c0;
+    }
+
+    /* ===== Section Container ===== */
+    .section {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    /* ===== Carousel ===== */
+    .carousel-container {
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+    .slides img {
+      min-width: 100%;
+      height: 400px;
+      object-fit: cover;
+    }
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      padding: 12px;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 10;
+    }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+    .prev:hover, .next:hover {
+      background: rgba(0,0,0,0.8);
+    }
+
+    /* ===== Mess & Gym ===== */
+    .facility-container {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .facility-img {
+      flex: 1;
+      min-width: 300px;
+    }
+    .facility-img img {
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    .facility-details {
+      flex: 1;
+      min-width: 300px;
+    }
+    .facility-details h2 {
+      color: #1976d2;
+      margin-bottom: 15px;
+    }
+    .facility-details p {
+      margin-bottom: 10px;
+    }
+    .facility-details strong {
+      color: #4CAF50;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .facility-container {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- Navbar -->
   <nav class="navbar">
-    <div class="logo">ACCOMODATION MANAGEMENT SYSTEM</div>
+    <div class="logo">ACCOMMODATION MANAGEMENT SYSTEM</div>
     <div class="nav-links">
       <a href="auth/signup.html" class="btn signup-btn">Signup</a>
       <a href="auth/login.html" class="btn login-btn">Login</a>
     </div>
   </nav>
 
-  
-
-  <!-- Image Carousel Section -->
-  <section class="carousel">
+  <!-- Carousel -->
+  <section class="section">
     <div class="carousel-container">
       <div class="slides">
-        <img src="images/Pix1-Building.jpeg" alt="Hostel Pic 1">
-        <img src="images/singlebed.jpg" alt="Hostel Pic 2">
-        <img src="images/OIP.webp" alt="Hostel Pic 3">
-        <img src="images/mess.jpg" alt="Hostel Pic 4">
-        <img src="images/wp12424948.jpg" alt="Hostel Pic 5">
+        <img src="images/Pix1-Building.jpeg" alt="Hostel Building">
+        <img src="images/singlebed.jpg" alt="Single Bed Room">
+        <img src="images/OIP.webp" alt="Hostel Interior">
+        <img src="images/mess.jpg" alt="Mess Hall">
+        <img src="images/wp12424948.jpg" alt="Gym Facility">
       </div>
       <button class="prev">&#10094;</button>
       <button class="next">&#10095;</button>
     </div>
   </section>
 
-  <!-- Mess Section -->
-  <section class="mess">
-    <div class="mess-container">
-      <div class="mess-img">
+  <!-- Mess -->
+  <section class="section">
+    <div class="card facility-container">
+      <div class="facility-img">
         <img src="images/mess.jpg" alt="Mess Image">
       </div>
-      <div class="mess-details">
+      <div class="facility-details">
         <h2>Mess Facility</h2>
-        <p><strong>Cost:</strong> ₹2500 / Month</p>
         <p><strong>Timings:</strong> Breakfast: 7:30–9:30 AM<br>Lunch: 12:30–2:30 PM<br>Dinner: 7:00–9:00 PM</p>
         <p>Nutritious meals served daily with hygienic standards maintained.</p>
       </div>
     </div>
   </section>
 
-  <!-- Gym Section -->
-  <section class="gym">
-    <div class="gym-container">
-      <div class="gym-details">
+  <!-- Gym -->
+  <section class="section">
+    <div class="card facility-container">
+      <div class="facility-details">
         <h2>Gym Facility</h2>
-        <p><strong>Price:</strong> ₹1200 / Month</p>
         <p><strong>Workout Timings:</strong> Morning: 6:00–9:00 AM<br>Evening: 6:00–9:00 PM</p>
         <p><strong>Components:</strong> Treadmills, Dumbbells, Weight Machines, Cardio Zone</p>
         <p>Stay fit and healthy with our modern gym facilities tailored for hostel students.</p>
       </div>
-      <div class="gym-img">
+      <div class="facility-img">
         <img src="images/wp12424948.jpg" alt="Gym Image">
       </div>
     </div>
   </section>
 
-  <!-- Contact Section -->
-  <section class="contact">
-    <h2>Contact Support</h2>
-    <p><strong>Helpline:</strong> 9885529937</p>
-
-    <div class="complaint-box">
-      <h3>Complaint Box</h3>
-      <form>
-        <input type="text" placeholder="Room ID" required>
-        <input type="text" placeholder="Student Name" required>
-        <textarea placeholder="Describe your issue" required></textarea>
-        <button type="submit">Submit Complaint</button>
-      </form>
-    </div>
-  </section>
-
-
-  
 
   <script>
-    // Carousel Script
+    // Carousel Script (unchanged)
     const slides = document.querySelectorAll(".slides img");
     let index = 0;
     const prev = document.querySelector(".prev");
@@ -105,6 +225,13 @@
     next.addEventListener("click", () => {
       index = (index < slides.length - 1) ? index + 1 : 0;
       showSlide(index);
+    });
+
+    // Optional: Handle complaint form submission
+    document.getElementById("complaintForm")?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      alert("Complaint submitted successfully!");
+      e.target.reset();
     });
   </script>
 </body>
