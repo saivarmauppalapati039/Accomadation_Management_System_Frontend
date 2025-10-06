@@ -1,0 +1,70 @@
+<!-- rooms.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Available Rooms - Hostel Management</title>
+  <style>
+    /* Same theme as above */
+    body { font-family: Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 0; }
+    .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+    .card { background: white; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 30px; margin-bottom: 25px; }
+    h1, h2 { color: #1976d2; margin-bottom: 20px; }
+    .room-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+    .room-card { border: 1px solid #eee; padding: 15px; border-radius: 8px; }
+    .room-card h3 { margin: 0 0 10px; color: #4CAF50; }
+    .btn { padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+    .btn-primary { background: #1976d2; color: white; }
+    .btn-primary:hover { background: #1565c0; }
+    .back-link { display: inline-block; margin-bottom: 20px; color: #1976d2; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+    <h1>Available Rooms</h1>
+    <div class="card">
+      <div id="roomsList">Loading rooms...</div>
+    </div>
+  </div>
+
+  <script>
+    async function loadRooms() {
+      try {
+        const res = await fetch('https://accomadation-management-system-backend.onrender.com/api/rooms?status=available', { credentials: 'include' });
+        const rooms = await res.json();
+        const container = document.getElementById('roomsList');
+        
+        if (rooms.length === 0) {
+          container.innerHTML = '<p>No available rooms at the moment.</p>';
+          return;
+        }
+
+        let html = '<div class="room-grid">';
+        rooms.forEach(room => {
+          html += `
+            <div class="room-card">
+              <h3>Room ${room.number}</h3>
+              <p><strong>Type:</strong> ${room.roomType}</p>
+              <p><strong>Price:</strong> ₹${room.price}/month</p>
+              <button class="btn btn-primary" onclick="bookRoom('${room.id}')">Book Now</button>
+            </div>
+          `;
+        });
+        html += '</div>';
+        container.innerHTML = html;
+      } catch (err) {
+        document.getElementById('roomsList').innerHTML = '<p>Failed to load rooms.</p>';
+      }
+    }
+
+    function bookRoom(roomId) {
+      localStorage.setItem('selectedRoomId', roomId);
+      window.location.href = 'book-room.html';
+    }
+
+    loadRooms();
+  </script>
+</body>
+</html>
