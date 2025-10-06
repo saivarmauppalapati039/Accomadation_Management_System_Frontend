@@ -1,24 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Signup - Hostel Management System</title>
-  <link rel="stylesheet" href="signup.css">
+  <style>
+    /* Minimal styling for clarity */
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      width: 100%;
+      max-width: 400px;
+      padding: 20px;
+    }
+    .form-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .form-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    .form-box input,
+    .form-box select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    .form-box button {
+      width: 100%;
+      padding: 12px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .form-box button:hover {
+      background: #45a049;
+    }
+    .redirect {
+      text-align: center;
+      margin-top: 15px;
+    }
+    .redirect a {
+      color: #1976d2;
+      text-decoration: none;
+    }
+    .error {
+      color: red;
+      text-align: center;
+      margin-bottom: 10px;
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
     <form id="signupForm" class="form-box">
       <h2>Hostel Signup</h2>
+      <div id="errorMessage" class="error"></div>
 
-      <input type="text" id="pin" placeholder="Student Pin" required>
-      <input type="text" id="fullname" placeholder="Full Name" required>
-      <input type="text" id="roomid" placeholder="Room ID" required>
+      <input type="text" id="name" placeholder="Full Name" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
 
-      <select id="roomType" required>
-        <option value="">Select Room Type</option>
-        <option value="single">Single Bed - ₹3000/month</option>
-        <option value="double">Double Bed - ₹2000/month</option>
+      <select id="userType" required>
+        <option value="">Select Your Role</option>
+        <option value="visitors">Visitor (Meeting someone)</option>
+        <option value="hostelers">Hosteler (Booking a room)</option>
       </select>
 
       <button type="submit">Signup</button>
@@ -27,10 +92,53 @@
   </div>
 
   <script>
-    document.getElementById("signupForm").addEventListener("submit", function(e){
+    document.getElementById("signupForm").addEventListener("submit", async function (e) {
       e.preventDefault();
-      alert("Signup Successfully!");
-      window.location.href = "login.html";
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      const userType = document.getElementById("userType").value;
+
+      const errorDiv = document.getElementById("errorMessage");
+      errorDiv.style.display = "none";
+
+      // Basic validation
+      if (!name || !email || !password || !userType) {
+        errorDiv.textContent = "Please fill all fields.";
+        errorDiv.style.display = "block";
+        return;
+      }
+
+      try {
+        const response = await fetch("https://accomadation-management-system-backend.onrender.com/api/auth/signup", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include", // 👈 Critical for sessions
+          body: JSON.stringify({
+            name,
+            email,
+            password,
+            userType, // sends "visitors" or "hostelers"
+          }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert("Signup successful! Redirecting to login...");
+          window.location.href = "login.html";
+        } else {
+          errorDiv.textContent = result.error || "Signup failed.";
+          errorDiv.style.display = "block";
+        }
+      } catch (err) {
+        errorDiv.textContent = "Network error. Please try again.";
+        errorDiv.style.display = "block";
+        console.error("Signup error:", err);
+      }
     });
   </script>
 </body>
