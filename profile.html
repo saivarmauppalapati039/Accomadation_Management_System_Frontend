@@ -164,7 +164,7 @@
           credentials: 'include'
         });
         if (!res.ok) {
-          window.location.href = 'login.html';
+          window.location.href = 'auth/login.html';
           return;
         }
         currentUser = await res.json();
@@ -285,7 +285,7 @@
         method: 'POST',
         credentials: 'include'
       });
-      window.location.href = 'login.html';
+      window.location.href = 'auth/login.html';
     });
 
     // Initialize
