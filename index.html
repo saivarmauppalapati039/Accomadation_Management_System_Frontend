@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hostel Management System</title>
+  <link rel="stylesheet" href="index.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">ACCOMODATION MANAGEMENT SYSTEM</div>
+    <div class="nav-links">
+      <a href="signup.html" class="btn signup-btn">Signup</a>
+      <a href="login.html" class="btn login-btn">Login</a>
+    </div>
+  </nav>
+
+  
+
+  <!-- Image Carousel Section -->
+  <section class="carousel">
+    <div class="carousel-container">
+      <div class="slides">
+        <img src="images/Pix1-Building.jpeg" alt="Hostel Pic 1">
+        <img src="images/singlebed.jpg" alt="Hostel Pic 2">
+        <img src="images/OIP.webp" alt="Hostel Pic 3">
+        <img src="images/mess.jpg" alt="Hostel Pic 4">
+        <img src="images/wp12424948.jpg" alt="Hostel Pic 5">
+      </div>
+      <button class="prev">&#10094;</button>
+      <button class="next">&#10095;</button>
+    </div>
+  </section>
+
+  <!-- Mess Section -->
+  <section class="mess">
+    <div class="mess-container">
+      <div class="mess-img">
+        <img src="images/mess.jpg" alt="Mess Image">
+      </div>
+      <div class="mess-details">
+        <h2>Mess Facility</h2>
+        <p><strong>Cost:</strong> ₹2500 / Month</p>
+        <p><strong>Timings:</strong> Breakfast: 7:30–9:30 AM<br>Lunch: 12:30–2:30 PM<br>Dinner: 7:00–9:00 PM</p>
+        <p>Nutritious meals served daily with hygienic standards maintained.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gym Section -->
+  <section class="gym">
+    <div class="gym-container">
+      <div class="gym-details">
+        <h2>Gym Facility</h2>
+        <p><strong>Price:</strong> ₹1200 / Month</p>
+        <p><strong>Workout Timings:</strong> Morning: 6:00–9:00 AM<br>Evening: 6:00–9:00 PM</p>
+        <p><strong>Components:</strong> Treadmills, Dumbbells, Weight Machines, Cardio Zone</p>
+        <p>Stay fit and healthy with our modern gym facilities tailored for hostel students.</p>
+      </div>
+      <div class="gym-img">
+        <img src="images/wp12424948.jpg" alt="Gym Image">
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact">
+    <h2>Contact Support</h2>
+    <p><strong>Helpline:</strong> 9885529937</p>
+
+    <div class="complaint-box">
+      <h3>Complaint Box</h3>
+      <form>
+        <input type="text" placeholder="Room ID" required>
+        <input type="text" placeholder="Student Name" required>
+        <textarea placeholder="Describe your issue" required></textarea>
+        <button type="submit">Submit Complaint</button>
+      </form>
+    </div>
+  </section>
+
+
+  
+
+  <script>
+    // Carousel Script
+    const slides = document.querySelectorAll(".slides img");
+    let index = 0;
+    const prev = document.querySelector(".prev");
+    const next = document.querySelector(".next");
+
+    function showSlide(i) {
+      slides.forEach((slide, idx) => {
+        slide.style.display = idx === i ? "block" : "none";
+      });
+    }
+    showSlide(index);
+
+    prev.addEventListener("click", () => {
+      index = (index > 0) ? index - 1 : slides.length - 1;
+      showSlide(index);
+    });
+
+    next.addEventListener("click", () => {
+      index = (index < slides.length - 1) ? index + 1 : 0;
+      showSlide(index);
+    });
+  </script>
+</body>
+</html>

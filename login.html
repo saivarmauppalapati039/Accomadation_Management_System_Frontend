@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Hostel Management System</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <div class="container">
+    <form id="loginForm" class="form-box">
+      <h2>Hostel Login</h2>
+
+      <input type="text" id="loginPin" placeholder="Student Pin" required>
+      <input type="text" id="loginName" placeholder="Full Name" required>
+      <input type="text" id="loginRoom" placeholder="Room ID" required>
+
+      <button type="submit">Login</button>
+      <p class="redirect">Don’t have an account? <a href="signup.html">Signup</a></p>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e){
+      e.preventDefault();
+
+      let pin = document.getElementById("loginPin").value;
+      let name = document.getElementById("loginName").value;
+      let room = document.getElementById("loginRoom").value;
+
+      if(pin && name && room){
+        alert("Login Successful!");
+        window.location.href = "index.html";
+      } else {
+        alert("Invalid Credentials! Please try again.");
+      }
+    });
+  </script>
+</body>
+</html>

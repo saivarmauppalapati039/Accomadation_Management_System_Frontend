@@ -1,0 +1,79 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #141E30, #243B55);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  width: 100%;
+  max-width: 400px;
+}
+
+.form-box {
+  background: rgba(255,255,255,0.08);
+  padding: 30px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
+}
+
+.form-box h2 {
+  margin-bottom: 20px;
+  color: #4facfe;
+}
+
+.form-box input, .form-box select {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 15px;
+}
+
+.form-box input:focus, .form-box select:focus {
+  border: 2px solid #4facfe;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #4facfe;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background: #00f2fe;
+}
+
+.redirect {
+  margin-top: 15px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.redirect a {
+  color: #4facfe;
+  text-decoration: none;
+}
+
+.redirect a:hover {
+  text-decoration: underline;
+}

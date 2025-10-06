@@ -1,0 +1,234 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Body background */
+body {
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364); /* Blue-Black Mix */
+  color: #fff;
+  min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background: rgba(0, 0, 0, 0.5);
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(12px);
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s ease;
+}
+
+.signup-btn {
+  background: #4facfe;
+  color: #fff;
+}
+
+.signup-btn:hover {
+  background: #fff;
+  color: #4facfe;
+}
+
+.login-btn {
+  border: 2px solid #4facfe;
+  color: #4facfe;
+}
+
+.login-btn:hover {
+  background: #4facfe;
+  color: #fff;
+}
+
+/* Carousel */
+.carousel {
+  margin: 30px auto;
+  max-width: 1200px;
+  position: relative;
+}
+
+.slides img {
+  width: 100%;
+  height: 500px;
+  border-radius: 15px;
+  display: none;
+  object-fit: cover;
+  box-shadow: 0 0 20px rgba(0,0,0,0.7);
+}
+
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: none;
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.prev { left: 20px; }
+.next { right: 20px; }
+
+.prev:hover, .next:hover {
+  background: #4facfe;
+  color: #fff;
+}
+
+/* Mess Section */
+.mess {
+  margin: 50px auto;
+  max-width: 1200px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 15px;
+  padding: 30px;
+}
+
+.mess-container {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.mess-img img {
+  border-radius: 15px;
+  width: 500px;
+  height: 300px;
+  object-fit: cover;
+}
+
+.mess-details h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: #4facfe;
+}
+
+.mess-details p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+/* Gym Section */
+.gym {
+  margin: 50px auto;
+  max-width: 1200px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 15px;
+  padding: 30px;
+}
+
+.gym-container {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.gym-details h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: #00f2fe;
+}
+
+.gym-details p {
+  margin: 10px 0;
+  font-size: 16px;
+}
+
+.gym-img img {
+  border-radius: 15px;
+  width: 500px;
+  height: 300px;
+  object-fit: cover;
+}
+
+/* Contact Section */
+.contact {
+  margin: 50px auto;
+  max-width: 800px;
+  text-align: center;
+  padding: 30px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 15px;
+}
+
+.contact h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: #4facfe;
+}
+
+.contact p {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.complaint-box {
+  text-align: left;
+  background: rgba(0,0,0,0.4);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+.complaint-box h3 {
+  margin-bottom: 15px;
+  color: #00f2fe;
+}
+
+.complaint-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.complaint-box input,
+.complaint-box textarea {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+}
+
+.complaint-box textarea {
+  resize: none;
+  height: 100px;
+}
+
+.complaint-box button {
+  padding: 12px;
+  border: none;
+  border-radius: 30px;
+  background: #4facfe;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.complaint-box button:hover {
+  background: #00f2fe;
+}
