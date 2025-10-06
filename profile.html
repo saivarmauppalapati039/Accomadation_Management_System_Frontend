@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Profile - Hostel Management</title>
+  <style>
+    /* Match your login/signup theme */
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+      color: #333;
+    }
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-bottom: 25px;
+    }
+    h1, h2 {
+      color: #1976d2;
+      margin-bottom: 20px;
+    }
+    .profile-info p {
+      margin: 8px 0;
+    }
+    .highlight {
+      font-weight: bold;
+      color: #4CAF50;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    .btn-primary {
+      background: #1976d2;
+      color: white;
+    }
+    .btn-primary:hover {
+      background: #1565c0;
+    }
+    .btn-secondary {
+      background: #4CAF50;
+      color: white;
+    }
+    .btn-secondary:hover {
+      background: #45a049;
+    }
+    .btn-logout {
+      background: #f44336;
+      color: white;
+    }
+    .btn-logout:hover {
+      background: #d32f2f;
+    }
+    .error, .success {
+      padding: 10px;
+      margin: 15px 0;
+      border-radius: 5px;
+    }
+    .error {
+      background: #ffebee;
+      color: #c62828;
+      display: none;
+    }
+    .success {
+      background: #e8f5e9;
+      color: #2e7d32;
+      display: none;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
+    th {
+      background: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>My Profile</h1>
+
+    <!-- Profile Info -->
+    <div class="card">
+      <h2>Account Details</h2>
+      <div class="profile-info">
+        <p><span class="highlight">Name:</span> <span id="profileName"></span></p>
+        <p><span class="highlight">Email:</span> <span id="profileEmail"></span></p>
+        <p><span class="highlight">Role:</span> <span id="profileRole"></span></p>
+      </div>
+
+      <button class="btn btn-primary" id="editBtn">Edit Profile</button>
+      <button class="btn btn-logout" id="logoutBtn">Logout</button>
+    </div>
+
+    <!-- Edit Form (hidden by default) -->
+    <div class="card" id="editForm" style="display:none;">
+      <h2>Edit Profile</h2>
+      <div class="error" id="editError"></div>
+      <div class="success" id="editSuccess"></div>
+
+      <div class="form-group">
+        <label for="editName">Full Name</label>
+        <input type="text" id="editName" required>
+      </div>
+      <div class="form-group">
+        <label for="editEmail">Email</label>
+        <input type="email" id="editEmail" required>
+      </div>
+      <button class="btn btn-primary" id="saveBtn">Save Changes</button>
+      <button class="btn btn-secondary" id="cancelBtn">Cancel</button>
+    </div>
+
+    <!-- Bookings Section (for hostelers) -->
+    <div class="card" id="bookingsSection" style="display:none;">
+      <h2>My Bookings</h2>
+      <div id="bookingsList">
+        <p>Loading bookings...</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentUser = null;
+
+    // Fetch profile on load
+    async function loadProfile() {
+      try {
+        const res = await fetch('https://accomadation-management-system-backend.onrender.com/api/profile', {
+          credentials: 'include'
+        });
+        if (!res.ok) {
+          window.location.href = 'login.html';
+          return;
+        }
+        currentUser = await res.json();
+        document.getElementById('profileName').textContent = currentUser.name;
+        document.getElementById('profileEmail').textContent = currentUser.email;
+        document.getElementById('profileRole').textContent = currentUser.userType;
+
+        // Show bookings only for hostelers
+        if (currentUser.userType === 'hostelers') {
+          document.getElementById('bookingsSection').style.display = 'block';
+          loadBookings();
+        }
+      } catch (err) {
+        console.error('Failed to load profile:', err);
+        window.location.href = 'login.html';
+      }
+    }
+
+    // Load bookings
+    async function loadBookings() {
+      try {
+        const res = await fetch('https://accomadation-management-system-backend.onrender.com/api/bookings', { credentials: 'include' });
+        const bookings = await res.json();
+        const listDiv = document.getElementById('bookingsList');
+
+        if (bookings.length === 0) {
+          listDiv.innerHTML = '<p>No bookings found.</p>';
+          return;
+        }
+
+        let html = `
+          <table>
+            <thead>
+              <tr>
+                <th>Room</th>
+                <th>Dates</th>
+                <th>Status</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+        bookings.forEach(b => {
+          html += `
+            <tr>
+              <td>${b.room?.number || '—'}</td>
+              <td>${b.checkIn} → ${b.checkOut}</td>
+              <td>${b.status}</td>
+              <td>₹${b.totalAmount}</td>
+            </tr>
+          `;
+        });
+        html += `</tbody></table>`;
+        listDiv.innerHTML = html;
+      } catch (err) {
+        document.getElementById('bookingsList').innerHTML = '<p>Failed to load bookings.</p>';
+      }
+    }
+
+    // Edit profile
+    document.getElementById('editBtn').addEventListener('click', () => {
+      document.getElementById('editName').value = currentUser.name;
+      document.getElementById('editEmail').value = currentUser.email;
+      document.getElementById('editForm').style.display = 'block';
+    });
+
+    document.getElementById('cancelBtn').addEventListener('click', () => {
+      document.getElementById('editForm').style.display = 'none';
+    });
+
+    document.getElementById('saveBtn').addEventListener('click', async () => {
+      const name = document.getElementById('editName').value.trim();
+      const email = document.getElementById('editEmail').value.trim();
+      const errorDiv = document.getElementById('editError');
+      const successDiv = document.getElementById('editSuccess');
+
+      errorDiv.style.display = 'none';
+      successDiv.style.display = 'none';
+
+      if (!name || !email) {
+        errorDiv.textContent = 'All fields are required.';
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      try {
+        const res = await fetch('https://accomadation-management-system-backend.onrender.com/api/profile', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ name, email })
+        });
+
+        const result = await res.json();
+        if (res.ok) {
+          currentUser.name = name;
+          currentUser.email = email;
+          document.getElementById('profileName').textContent = name;
+          document.getElementById('profileEmail').textContent = email;
+          successDiv.textContent = 'Profile updated successfully!';
+          successDiv.style.display = 'block';
+          setTimeout(() => {
+            document.getElementById('editForm').style.display = 'none';
+          }, 1500);
+        } else {
+          errorDiv.textContent = result.error || 'Update failed.';
+          errorDiv.style.display = 'block';
+        }
+      } catch (err) {
+        errorDiv.textContent = 'Network error.';
+        errorDiv.style.display = 'block';
+      }
+    });
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      await fetch('https://accomadation-management-system-backend.onrender.com/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include'
+      });
+      window.location.href = 'login.html';
+    });
+
+    // Initialize
+    loadProfile();
+  </script>
+</body>
+</html>
