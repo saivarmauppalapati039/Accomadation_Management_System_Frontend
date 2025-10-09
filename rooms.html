@@ -32,7 +32,7 @@
   <script>
     async function loadRooms() {
       try {
-        const res = await fetch('https://accomadation-management-system-backend.onrender.com/api/rooms?status=available', { credentials: 'include' });
+        const res = await fetch('https://accomadation-management-system-backend.onrender.com/api/rooms?status=available', { headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`} });
         const rooms = await res.json();
         const container = document.getElementById('roomsList');
         

@@ -161,7 +161,7 @@
     async function loadProfile() {
       try {
         const res = await fetch('https://accomadation-management-system-backend.onrender.com/api/profile', {
-          credentials: 'include'
+        headers :{'Authorization': `Bearer ${localStorage.getItem('token')}`}
         });
         if (!res.ok) {
           window.location.href = 'auth/login.html';
@@ -186,7 +186,7 @@
     // Load bookings
     async function loadBookings() {
       try {
-        const res = await fetch('https://accomadation-management-system-backend.onrender.com/api/bookings', { credentials: 'include' });
+        const res = await fetch('https://accomadation-management-system-backend.onrender.com/api/bookings', { headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}});
         const bookings = await res.json();
         const listDiv = document.getElementById('bookingsList');
 
@@ -253,8 +253,7 @@
       try {
         const res = await fetch('https://accomadation-management-system-backend.onrender.com/api/profile', {
           method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
+          headers: { 'Content-Type': 'application/json', headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`} },
           body: JSON.stringify({ name, email })
         });
 
@@ -283,8 +282,9 @@
     document.getElementById('logoutBtn').addEventListener('click', async () => {
       await fetch('https://accomadation-management-system-backend.onrender.com/api/auth/logout', {
         method: 'POST',
-        credentials: 'include'
+        headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
       });
+      localStorage.removeItem('token');
       window.location.href = 'auth/login.html';
     });
 

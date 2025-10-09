@@ -70,7 +70,7 @@
 
   <script>
     async function loadRooms() {
-      const res = await fetch('https://accomadation-management-system-backend.onrender.com/api/rooms', { credentials: 'include' });
+      const res = await fetch('https://accomadation-management-system-backend.onrender.com/api/rooms', { headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}});
       const rooms = await res.json();
       const tbody = document.getElementById('roomsBody');
       tbody.innerHTML = '';
@@ -98,8 +98,7 @@
 
       await fetch('https://accomadation-management-system-backend.onrender.com/api/rooms', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}` },
         body: JSON.stringify({ number, roomType: type, price: parseFloat(price) })
       });
       loadRooms();
@@ -113,8 +112,7 @@
       if (!newStatus) return;
       await fetch(`https://accomadation-management-system-backend.onrender.com/api/rooms/${id}`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}`},
         body: JSON.stringify({ status: newStatus })
       });
       loadRooms();
@@ -124,7 +122,9 @@
       if (!confirm('Delete this room?')) return;
       await fetch(`https://accomadation-management-system-backend.onrender.com/api/rooms/${id}`, {
         method: 'DELETE',
-        credentials: 'include'
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
       });
       loadRooms();
     }

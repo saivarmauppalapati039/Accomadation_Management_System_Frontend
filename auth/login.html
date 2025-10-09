@@ -104,7 +104,6 @@
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: "include", // 👈 Critical for session cookies
           body: JSON.stringify({ email, password }),
         });
 
@@ -113,6 +112,7 @@
         if (response.ok) {
           alert("Login successful!");
           // Redirect based on role (optional)
+          localStorage.setItem('token', result.token)
           window.location.href = "../dashboard.html";
         } else {
           errorDiv.textContent = result.error || "Invalid email or password.";

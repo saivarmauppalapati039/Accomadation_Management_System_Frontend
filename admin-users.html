@@ -72,7 +72,7 @@
 
   <script>
     async function loadUsers() {
-      const res = await fetch('https://accomadation-management-system-backend.onrender.com/api/users', { credentials: 'include' });
+      const res = await fetch('https://accomadation-management-system-backend.onrender.com/api/users', { headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}});
       const users = await res.json();
       const tbody = document.getElementById('usersBody');
       tbody.innerHTML = '';
@@ -111,8 +111,8 @@
 
       await fetch('https://accomadation-management-system-backend.onrender.com/api/users', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${localStorage.getItem('token')}`},
+        
         body: JSON.stringify({ name, email, password, userType })
       });
       loadUsers();
@@ -126,7 +126,7 @@
       if (!confirm('Delete this user?')) return;
       await fetch(`https://accomadation-management-system-backend.onrender.com/api/users/${id}`, {
         method: 'DELETE',
-        credentials: 'include'
+        headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
       });
       loadUsers();
     }

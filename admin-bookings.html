@@ -50,7 +50,7 @@
 
   <script>
     async function loadBookings() {
-      const res = await fetch('https://accomadation-management-system-backend.onrender.com/api/bookings', { credentials: 'include' });
+      const res = await fetch('https://accomadation-management-system-backend.onrender.com/api/bookings', { headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`} });
       const bookings = await res.json();
       const tbody = document.getElementById('bookingsBody');
       tbody.innerHTML = '';
@@ -84,8 +84,11 @@
       
       await fetch(`https://accomadation-management-system-backend.onrender.com/api/bookings/${bookingId}/status`, {
         method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+        
         body: JSON.stringify({ status: newStatus })
       });
       loadBookings();
